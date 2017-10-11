@@ -66,6 +66,6 @@ public func createCorrectTaskManager() -> PTNet {
 
     // P/T-net
     return PTNet(
-        places: [taskPool, processPool, inProgress],
+        places: [taskPool, processPool, inProgress, taskChecker],
         transitions: [create, spawn, success, exec, fail])
 }
