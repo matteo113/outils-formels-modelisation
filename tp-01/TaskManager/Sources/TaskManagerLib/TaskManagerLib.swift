@@ -41,12 +41,13 @@ public func createCorrectTaskManager() -> PTNet {
     let processPool = PTPlace(named: "processPool")
     let inProgress  = PTPlace(named: "inProgress")
     let taskChecker = PTPlace(named: "taskChecker")
+    // we create a new place to prevent a task from executing two times with two process
 
     // Transitions
     let create      = PTTransition(
         named          : "create",
         preconditions  : [],
-        postconditions : [PTArc(place: taskPool), PTArc(place: taskChecker)])
+        postconditions : [PTArc(place: taskPool), PTArc(place: taskChecker)]) //we also add a tocken to taskChecker
     let spawn       = PTTransition(
         named          : "spawn",
         preconditions  : [],
@@ -57,12 +58,12 @@ public func createCorrectTaskManager() -> PTNet {
         postconditions : [])
     let exec       = PTTransition(
         named          : "exec",
-        preconditions  : [PTArc(place: taskPool), PTArc(place: processPool), PTArc(place: taskChecker)],
-        postconditions : [PTArc(place: taskPool), PTArc(place: inProgress)])
+        preconditions  : [PTArc(place: taskPool), PTArc(place: processPool), PTArc(place: taskChecker)], //we also need a token in taskChecker to fire exec
+        postconditions : [PTArc(place: taskPool), PTArc(place: inProgress)]) // but unlike the one in taskPool it doesen't stay when the task is in progress
     let fail        = PTTransition(
         named          : "fail",
         preconditions  : [PTArc(place: inProgress)],
-      postconditions : [PTArc(place: taskChecker)])
+      postconditions : [PTArc(place: taskChecker)]) // in case of failure a token is recreated in taskChecker
 
     // P/T-net
     return PTNet(
