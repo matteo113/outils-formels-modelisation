@@ -28,4 +28,5 @@ if let markingGraph = model.markingGraph(from: initialMarking) {
     //4.1
 
     print(model.count(mark: markingGraph))
+    print(model.moreThanTwo(mark: markingGraph))
 }
