@@ -39,7 +39,7 @@ public func createModel() -> PTNet {
     )
 
     let ts2 = PTTransition(
-      named: "ts2"
+      named: "ts2",
       preconditions: [PTArc(place: w2), PTArc(place: p), PTArc(place: m)],
       postconditions: [PTArc(place: r), PTArc(place: s2)]
     )
