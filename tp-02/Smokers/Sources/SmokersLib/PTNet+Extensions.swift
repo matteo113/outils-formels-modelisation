@@ -48,11 +48,12 @@ public extension PTNet {
 
 
     /*
-      Given a MarkingGraph it returns the number of nodes in the graf
+      Given a MarkingGraph it returns the number of nodes in the graph
     */
     public func count (mark: MarkingGraph) -> Int{
       var seen = [MarkingGraph]()
       var toSee = [MarkingGraph]()
+      var unique = [MarkingGraph]()
 
       toSee.append(mark)
       while let cur = toSee.popLast() {
@@ -63,11 +64,12 @@ public extension PTNet {
             }
           }
       }
-      /*for e in seen {
-          print(e.marking)
-          print(e.successors)
-      }*/
-      return seen.count
+      for state in seen {
+          if(!unique.contains(where :{$0.marking == state.marking})){
+            unique.append(state)
+          }
+      }
+      return unique.count
     }
 
     /*
