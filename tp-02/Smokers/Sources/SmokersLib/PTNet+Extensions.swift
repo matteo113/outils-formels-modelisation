@@ -46,6 +46,10 @@ public extension PTNet {
         return initNode
     }
 
+
+    /*
+      Given a MarkingGraph it returns the number of nodes in the graf
+    */
     public func count (mark: MarkingGraph) -> Int{
       var seen = [MarkingGraph]()
       var toSee = [MarkingGraph]()
@@ -66,6 +70,10 @@ public extension PTNet {
       return seen.count
     }
 
+    /*
+      Given a MarkingGraph it returns true if it exists a node where more than
+      two smokers are smoking at the same time.
+    */
     public func moreThanTwo (mark: MarkingGraph) -> Bool {
       var seen = [MarkingGraph]()
       var toSee = [MarkingGraph]()
@@ -80,7 +88,7 @@ public extension PTNet {
             }
         }
         if (nbSmoke > 1) {
-          print (cur.marking)
+          //print (cur.marking)
           return true
         }
         for(_, successor) in cur.successors{
@@ -91,7 +99,10 @@ public extension PTNet {
       }
       return false
     }
-
+    /*
+      Given a MarkingGraph it returns true if it exists a node where there is more
+      than one times the same item on the table
+    */
     public func twoTimesSame (mark: MarkingGraph) -> Bool {
       var seen = [MarkingGraph]()
       var toSee = [MarkingGraph]()
@@ -102,7 +113,7 @@ public extension PTNet {
         for (key, value) in cur.marking {
             if (key.name == "p" || key.name == "t" || key.name == "m"){
                if(value > 1){
-               print(cur.marking)
+               //print(cur.marking)
                  return true
                }
             }
