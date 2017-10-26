@@ -73,10 +73,10 @@ public extension PTNet {
     }
 
     /*
-      Given a MarkingGraph it returns true if it exists a node where more than
+      Given a MarkingGraph it returns true if it exists a node where at least
       two smokers are smoking at the same time.
     */
-    public func moreThanTwo (mark: MarkingGraph) -> Bool {
+    public func atLeastTwo (mark: MarkingGraph) -> Bool {
       var seen = [MarkingGraph]()
       var toSee = [MarkingGraph]()
 
