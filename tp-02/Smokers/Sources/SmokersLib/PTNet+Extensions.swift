@@ -92,4 +92,28 @@ public extension PTNet {
       return false
     }
 
+    public func twoTimesSame (mark: MarkingGraph) -> Bool {
+      var seen = [MarkingGraph]()
+      var toSee = [MarkingGraph]()
+
+      toSee.append(mark)
+      while let cur = toSee.popLast() {
+        seen.append(cur)
+        for (key, value) in cur.marking {
+            if (key.name == "p" || key.name == "t" || key.name == "m"){
+               if(value > 1){
+               print(cur.marking)
+                 return true
+               }
+            }
+        }
+        for(_, successor) in cur.successors{
+          if !seen.contains(where: {$0 === successor}) && !toSee.contains(where: {$0 === successor}){
+              toSee.append(successor)
+            }
+          }
+      }
+      return false
+    }
+
 }

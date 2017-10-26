@@ -29,4 +29,5 @@ if let markingGraph = model.markingGraph(from: initialMarking) {
 
     print(model.count(mark: markingGraph))
     print(model.moreThanTwo(mark: markingGraph))
+    print(model.twoTimesSame(mark: markingGraph))
 }
