@@ -27,12 +27,9 @@ public extension PTNet {
         while toVisit.count != 0 {
             let cur = toVisit.removeFirst()
             visited.append(cur)
-
             transitions.forEach { trans in
-
               if let newMark = trans.fire(from: cur.marking) {
                         if let alreadyVisited = visited.first(where: { $0.marking == newMark }) {
-
                             cur.successors[trans] = alreadyVisited
                         } else {
                             let discovered = MarkingGraph(marking: newMark)
@@ -44,6 +41,29 @@ public extension PTNet {
                 }
             }
         }
-        return initialNode
+
+        //initNode.nbNodes = visited.count
+
+        return initNode
+    }
+
+    public func count (mark: MarkingGraph) -> Int{
+      var seen = [MarkingGraph]()
+      var toSee = [MarkingGraph]()
+
+      toSee.append(mark)
+      while let cur = toSee.popLast() {
+        seen.append(cur)
+        for(_, successor) in cur.successors{
+          if !seen.contains(where: {$0 === successor}) && !toSee.contains(where: {$0 === successor}){
+              toSee.append(successor)
+            }
+          }
+      }
+      /*for e in seen {
+          print(e.marking)
+          print(e.successors)
+      }*/
+      return seen.count
     }
 }
