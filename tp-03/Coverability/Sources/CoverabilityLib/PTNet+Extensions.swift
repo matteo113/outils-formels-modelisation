@@ -50,8 +50,18 @@ public extension PTNet {
               }
             }
         }
+        print("count \(visited.count)")
 
         return initNode
+    }
+
+    public func isIn(mark : CoverabilityMarking, list : [CoverabilityGraph]) -> Bool {
+        for visitedNode in list {
+            if visitedNode.marking == mark {
+              return true
+            }
+        }
+        return false
     }
 
 }
@@ -60,24 +70,41 @@ public extension PTTransition {
 
 	public func isFireable(from marking: CoverabilityMarking) -> Bool {
 		for arc in self.preconditions {
-			switch marking[arc.place]! {
+			/*switch marking[arc.place]! {
 				case .omega:
-					return true
+          print("omega")
 				case .some(let nbToken):
-					return nbToken >= arc.tokens
+          print("some")
+          print("\(nbToken)>=\(arc.tokens)")
+          print(nbToken >= arc.tokens)
+					if nbToken < arc.tokens{
+            return false
+          }
+			}*/
+      if case .some(let nb) = marking[arc.place]! {
+        if nb < arc.tokens{
+          return false
+        }
 			}
 		}
-    return false
+    return true
 	}
 
 	public func fire(from marking: CoverabilityMarking) -> CoverabilityMarking? {
 		guard self.isFireable(from: marking) else {
         return nil
 		}
-
 		var result = marking
 
 		for arc in self.preconditions {
+      /*switch result[arc.place]! {
+      case .some(let nb):
+        print("nb \(nb)")
+        print("arc.tokens \(arc.tokens)")
+        result[arc.place]! = .some(nb - arc.tokens)
+      case .omega:
+        print("omega")
+      }*/
 			if case .some(let nb) = result[arc.place]! {
 				result[arc.place]! = .some(nb - arc.tokens)
 			}
@@ -87,7 +114,6 @@ public extension PTTransition {
 				result[arc.place]! = .some(nb + arc.tokens)
 			}
 		}
-
 		return result
 	}
 }
