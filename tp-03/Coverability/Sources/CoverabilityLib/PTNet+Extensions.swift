@@ -3,6 +3,7 @@ import PetriKit
 public extension PTNet {
 
     public func coverabilityGraph(from marking: CoverabilityMarking) -> CoverabilityGraph {
+
         // Write here the implementation of the coverability graph generation.
 
         // Note that CoverabilityMarking implements both `==` and `>` operators, meaning that you
@@ -13,7 +14,66 @@ public extension PTNet {
         // print debug information you'll write in that function will NOT be taken into account to
         // evaluate your homework.
 
+				let initNode = CoverabilityGraph(marking: marking)
+        var toVisit = [CoverabilityGraph]()
+        var visited = [CoverabilityGraph]()
+
+        toVisit.append(initNode)
+
+				while toVisit.count != 0 {
+            let cur = toVisit.removeFirst()
+            visited.append(cur)
+            transitions.forEach { trans in
+              if let newMark = trans.fire(from: cur.marking) {
+                        if let alreadyVisited = visited.first(where: { $0.marking == newMark }) {
+                            cur.successors[trans] = alreadyVisited
+                        } else {
+                            let discovered = MarkingGraph(marking: newMark)
+                            cur.successors[trans] = discovered
+                            if (!toVisit.contains(where: { $0.marking == discovered.marking})) {
+                                toVisit.append(discovered)
+                            }
+                    }
+                }
+            }
+        }
+
         return CoverabilityGraph(marking: marking)
     }
 
+}
+
+public extension PTTransition {
+
+	public func isFireable(from marking: CoverabilityMarking) -> Bool {
+		for arc in self.preconditions {
+			switch marking[arc.place]! {
+				case .omega:
+					return true  
+				case .some(let nbToken):
+					return nbToken >= arc.tokens
+			}
+		}
+	}
+
+	public func fire(from marking: CoverabilityMarking) -> CoverabilityMarking? {
+		guard self.isFireable(from: marking) else {
+        return nil
+		}
+
+		var result = marking
+
+		for arc in self.preconditions {
+			if case .some(nb) = result[arc.place]! {
+				result[arc.place]! = .some(nb - arc.tokens)
+			}
+		}
+		for arc in self.postconditions {
+			if case .some(nb) = result[arc.place]! {
+				result[arc.place]! = .some(nb + arc.tokens)
+			}
+		}
+
+		return result
+	}
 }
