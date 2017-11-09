@@ -51,7 +51,7 @@ public extension PTNet {
             }
         }
 
-        return CoverabilityGraph(marking: marking)
+        return initNode
     }
 
 }
