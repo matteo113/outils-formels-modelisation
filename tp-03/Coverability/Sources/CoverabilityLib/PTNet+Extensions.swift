@@ -25,14 +25,14 @@ public extension PTNet {
             let cur = toVisit.removeFirst()
             visited.append(cur)
             transitions.forEach { trans in
-              if let newMark = trans.fire(from: cur.marking) {
+              if var newMark = trans.fire(from: cur.marking) {
 
 								for pastNode in visited {
 								    if newMark > pastNode.marking{
 											for place in newMark.keys {
 											    if newMark[place]! > pastNode.marking[place]! {
 														newMark[place] = .omega
-													} 
+													}
 											}
 										}
 								}
@@ -41,7 +41,7 @@ public extension PTNet {
                     cur.successors[trans] = alreadyVisited
                 }
 								else {
-                    let discovered = MarkingGraph(marking: newMark)
+                    let discovered = CoverabilityGraph(marking: newMark)
                     cur.successors[trans] = discovered
                     if (!toVisit.contains(where: { $0.marking == discovered.marking})) {
                         toVisit.append(discovered)
@@ -67,6 +67,7 @@ public extension PTTransition {
 					return nbToken >= arc.tokens
 			}
 		}
+    return false
 	}
 
 	public func fire(from marking: CoverabilityMarking) -> CoverabilityMarking? {
@@ -77,12 +78,12 @@ public extension PTTransition {
 		var result = marking
 
 		for arc in self.preconditions {
-			if case .some(nb) = result[arc.place]! {
+			if case .some(let nb) = result[arc.place]! {
 				result[arc.place]! = .some(nb - arc.tokens)
 			}
 		}
 		for arc in self.postconditions {
-			if case .some(nb) = result[arc.place]! {
+			if case .some(let nb) = result[arc.place]! {
 				result[arc.place]! = .some(nb + arc.tokens)
 			}
 		}
