@@ -16,6 +16,7 @@ public class CoverabilityGraph {
     public var count: Int {
         var seen: [CoverabilityGraph] = []
         var toCheck = [self]
+        var unique = [CoverabilityGraph]()
 
         while let node = toCheck.popLast() {
             seen.append(node)
@@ -25,8 +26,13 @@ public class CoverabilityGraph {
                 }
             }
         }
+        for state in seen {
+            if(!unique.contains(where :{$0.marking == state.marking})){
+              unique.append(state)
+            }
+          }
 
-        return seen.count
+        return unique.count
     }
 
 }
