@@ -23,11 +23,19 @@ public extension PTNet {
 
 				while toVisit.count != 0 {
             let cur = toVisit.removeFirst()
+          //  printMark(mark : cur.marking)
             visited.append(cur)
             transitions.forEach { trans in
               if var newMark = trans.fire(from: cur.marking) {
 
-								for pastNode in visited {
+                newMark = checkOmega(mark : newMark, list : visited)
+
+								/*for pastNode in visited {
+                  /*print("---------1")
+                  printMark(mark : newMark)
+                  printMark(mark : pastNode.marking)
+                  print(newMark > pastNode.marking)
+                  */
 								    if newMark > pastNode.marking{
 											for place in newMark.keys {
 											    if newMark[place]! > pastNode.marking[place]! {
@@ -35,10 +43,11 @@ public extension PTNet {
 													}
 											}
 										}
-								}
-
+								}*/
+                //printMark(mark : newMark)
                 if let alreadyVisited = visited.first(where: { $0.marking == newMark }) {
                     cur.successors[trans] = alreadyVisited
+                    //printMark(mark : alreadyVisited.marking)
                 }
 								else {
                     let discovered = CoverabilityGraph(marking: newMark)
@@ -50,9 +59,28 @@ public extension PTNet {
               }
             }
         }
-        print("count \(visited.count)")
 
         return initNode
+    }
+
+    public func checkOmega(mark : CoverabilityMarking, list : [CoverabilityGraph]) -> CoverabilityMarking {
+      var ret = mark
+      for pastNode in list {
+        /*print("---------1")
+        printMark(mark : newMark)
+        printMark(mark : pastNode.marking)
+        print(newMark > pastNode.marking)
+        */
+          if ret > pastNode.marking{
+            for place in ret.keys {
+                if ret[place]! > pastNode.marking[place]! {
+                  ret[place] = .omega
+                }
+            }
+            return ret
+          }
+      }
+      return mark
     }
 
     public func isIn(mark : CoverabilityMarking, list : [CoverabilityGraph]) -> Bool {
@@ -62,6 +90,13 @@ public extension PTNet {
             }
         }
         return false
+    }
+
+    public func printMark(mark : CoverabilityMarking) {
+      print("-------------------")
+        for place in mark.keys {
+            print("\(place.name) : \(mark[place])")
+        }
     }
 
 }
