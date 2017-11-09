@@ -26,6 +26,7 @@ public class CoverabilityGraph {
                 }
             }
         }
+        // without that this function counts several times the same node.
         for state in seen {
             if(!unique.contains(where :{$0.marking == state.marking})){
               unique.append(state)

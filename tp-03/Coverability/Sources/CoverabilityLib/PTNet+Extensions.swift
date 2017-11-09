@@ -43,7 +43,8 @@ public extension PTNet {
         return initNode
     }
 
-    public func checkOmega(mark : CoverabilityMarking, list : [CoverabilityGraph]) -> CoverabilityMarking {
+    // checks if a merking is bigger than a previous one and set omega conscequently
+    private func checkOmega(mark : CoverabilityMarking, list : [CoverabilityGraph]) -> CoverabilityMarking {
       var ret = mark
       for pastNode in list {
           if ret > pastNode.marking{
@@ -59,6 +60,9 @@ public extension PTNet {
     }
 }
 
+/*
+  Extension of PTTransition to implemnet isFireable and fire with a CoverabilityMarking
+*/
 public extension PTTransition {
 
 	public func isFireable(from marking: CoverabilityMarking) -> Bool {

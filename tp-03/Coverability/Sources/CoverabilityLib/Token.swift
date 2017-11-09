@@ -13,6 +13,9 @@ public enum Token: Comparable, ExpressibleByIntegerLiteral {
         switch (lhs, rhs) {
         case let (.some(x), .some(y)):
           return x == y
+
+        // add the cases where the Token value is omega.
+        // without that te function isn't complete and it fucks up my code.
         case (.some(_), .omega):
           return false
         case (.omega, .some(_)):
@@ -58,6 +61,7 @@ extension Dictionary where Key == PTPlace, Value == Token {
       return true
     }
 
+    // corrected version because the given one was completly false.
     public static func >(lhs: Dictionary, rhs: Dictionary) -> Bool {
         guard lhs.keys == rhs.keys else {
             return false
