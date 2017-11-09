@@ -66,7 +66,6 @@ extension Dictionary where Key == PTPlace, Value == Token {
         var hasGreater = false
         for place in lhs.keys {
             if lhs[place]! < rhs[place]! {
-              //print("\(lhs[place]!) < \(rhs[place]!)")
               return false
             }
             if rhs[place]! < lhs[place]! {
