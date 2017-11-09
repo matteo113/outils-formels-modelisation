@@ -14,6 +14,7 @@ public extension PTNet {
         // print debug information you'll write in that function will NOT be taken into account to
         // evaluate your homework.
 
+				let transitions = self.transitions
 				let initNode = CoverabilityGraph(marking: marking)
         var toVisit = [CoverabilityGraph]()
         var visited = [CoverabilityGraph]()
@@ -25,16 +26,28 @@ public extension PTNet {
             visited.append(cur)
             transitions.forEach { trans in
               if let newMark = trans.fire(from: cur.marking) {
-                        if let alreadyVisited = visited.first(where: { $0.marking == newMark }) {
-                            cur.successors[trans] = alreadyVisited
-                        } else {
-                            let discovered = MarkingGraph(marking: newMark)
-                            cur.successors[trans] = discovered
-                            if (!toVisit.contains(where: { $0.marking == discovered.marking})) {
-                                toVisit.append(discovered)
-                            }
+
+								for pastNode in visited {
+								    if newMark > pastNode.marking{
+											for place in newMark.keys {
+											    if newMark[place]! > pastNode.marking[place]! {
+														newMark[place] = .omega
+													} 
+											}
+										}
+								}
+
+                if let alreadyVisited = visited.first(where: { $0.marking == newMark }) {
+                    cur.successors[trans] = alreadyVisited
+                }
+								else {
+                    let discovered = MarkingGraph(marking: newMark)
+                    cur.successors[trans] = discovered
+                    if (!toVisit.contains(where: { $0.marking == discovered.marking})) {
+                        toVisit.append(discovered)
                     }
                 }
+              }
             }
         }
 
@@ -49,7 +62,7 @@ public extension PTTransition {
 		for arc in self.preconditions {
 			switch marking[arc.place]! {
 				case .omega:
-					return true  
+					return true
 				case .some(let nbToken):
 					return nbToken >= arc.tokens
 			}
