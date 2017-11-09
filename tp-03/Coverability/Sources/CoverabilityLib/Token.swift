@@ -12,7 +12,11 @@ public enum Token: Comparable, ExpressibleByIntegerLiteral {
     public static func ==(lhs: Token, rhs: Token) -> Bool {
         switch (lhs, rhs) {
         case let (.some(x), .some(y)):
-            return x == y
+          return x == y
+        case (.some(_), .omega):
+          return false
+        case (.omega, .some(_)):
+          return false
         default:
             return true
         }
@@ -41,6 +45,19 @@ public enum Token: Comparable, ExpressibleByIntegerLiteral {
 
 extension Dictionary where Key == PTPlace, Value == Token {
 
+    public static func ==(lhs: Dictionary, rhs: Dictionary) -> Bool {
+      guard lhs.keys == rhs.keys else {
+          return false
+      }
+
+      for place in lhs.keys {
+          guard lhs[place]! == rhs[place]! else {
+              return false
+          }
+      }
+      return true
+    }
+
     public static func >(lhs: Dictionary, rhs: Dictionary) -> Bool {
         guard lhs.keys == rhs.keys else {
             return false
@@ -48,8 +65,11 @@ extension Dictionary where Key == PTPlace, Value == Token {
 
         var hasGreater = false
         for place in lhs.keys {
-            guard lhs[place]! <= rhs[place]! else { return false }
-            if lhs[place]! > rhs[place]! {
+            if lhs[place]! < rhs[place]! {
+              //print("\(lhs[place]!) < \(rhs[place]!)")
+              return false
+            }
+            if rhs[place]! < lhs[place]! {
                 hasGreater = true
             }
         }
