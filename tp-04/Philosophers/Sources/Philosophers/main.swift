@@ -2,6 +2,32 @@ import PetriKit
 import PhilosophersLib
 
 do {
+    let philosophers = lockFreePhilosophers(n: 5)
+    let philosophersMarking = philosophers.markingGraph(from : philosophers.initialMarking!)
+    print("It exists \(philosophersMarking!.count) possible marking for the lockfree Philosophers problem with 5 philosophers\n")
+}
+
+do {
+  let philosophers = lockablePhilosophers(n: 5)
+  let philosophersMarking = philosophers.markingGraph(from : philosophers.initialMarking!)
+  print("It exists \(philosophersMarking!.count) possible marking for the lockable Philosophers problem with 5 philosophers\n")
+
+  lock : for node in philosophersMarking! {
+    var found = true
+    for (_, e) in node.successors {
+      if e.count != 0 {
+        found = false
+      }
+    }
+    if found {
+      print("with the marking \(node.marking) we have a locked case")
+      break lock
+    }
+  }
+}
+
+/*
+do {
     enum C: CustomStringConvertible {
         case b, v, o
 
@@ -50,3 +76,4 @@ do {
         print(m)
     }
 }
+*/
