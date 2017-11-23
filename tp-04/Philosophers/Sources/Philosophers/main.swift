@@ -21,7 +21,7 @@ do {
     }
     if found {
       print("with the marking \(node.marking) we have a locked case")
-      break lock
+      break
     }
   }
 }
