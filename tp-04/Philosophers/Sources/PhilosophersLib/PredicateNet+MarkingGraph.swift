@@ -15,16 +15,20 @@ extension PredicateNet {
                 cur.successors[t] = [:]
                 let bindings: [PredicateTransition<T>.Binding] = t.fireableBingings(from: cur.marking)
                 var discovered = PredicateMarkingNode<T>(marking:[:])
+                // Iterate over all fireableBingings and fire them
                 for b in bindings {
                     let newNode = PredicateMarkingNode(marking: t.fire(from: cur.marking, with:b)!)
+                        // check if the graph is bounded
                         for e in initNode {
                             if (PredicateNet.greater(newNode.marking, e.marking)) {
                             return nil
                           }
                         }
+                        // if the new marking alerady exists we add the node to the sucessors
                         if let visited = initNode.first(where: { PredicateNet.equals($0.marking, newNode.marking) }) {
                             cur.successors[t]![b] = visited
                         } else {
+                          // if it doesen't alerady exists we add it to the secessors and to the list of nodes to visit
                             discovered = newNode
                             if (!toVisit.contains(where: { PredicateNet.equals($0.marking, discovered.marking) })) {
                                 toVisit.append(discovered)
