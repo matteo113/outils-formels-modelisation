@@ -2,21 +2,42 @@ extension PredicateNet {
 
     /// Returns the marking graph of a bounded predicate net.
     public func markingGraph(from marking: MarkingType) -> PredicateMarkingNode<T>? {
-        // Write your code here ...
 
-        // Note that I created the two static methods `equals(_:_:)` and `greater(_:_:)` to help
-        // you compare predicate markings. You can use them as the following:
-        //
-        //     PredicateNet.equals(someMarking, someOtherMarking)
-        //     PredicateNet.greater(someMarking, someOtherMarking)
-        //
-        // You may use these methods to check if you've already visited a marking, or if the model
-        // is unbounded.
+        let transitions = self.transitions
+        let initNode = PredicateMarkingNode<T>(marking: marking)
+        var toVisit = [PredicateMarkingNode<T>]()
 
-        return nil
+        toVisit.append(initNode)
+
+        while toVisit.count != 0 {
+            let cur = toVisit.removeFirst()
+            for t in transitions {
+                cur.successors[t] = [:]
+                let bindings: [PredicateTransition<T>.Binding] = t.fireableBingings(from: cur.marking)
+                var discovered = PredicateMarkingNode<T>(marking:[:])
+                for b in bindings {
+                    let newNode = PredicateMarkingNode(marking: t.fire(from: cur.marking, with:b)!)
+                        for e in initNode {
+                            if (PredicateNet.greater(newNode.marking, e.marking)) {
+                            return nil
+                          }
+                        }
+                        if let visited = initNode.first(where: { PredicateNet.equals($0.marking, newNode.marking) }) {
+                            cur.successors[t]![b] = visited
+                        } else {
+                            discovered = newNode
+                            if (!toVisit.contains(where: { PredicateNet.equals($0.marking, discovered.marking) })) {
+                                toVisit.append(discovered)
+                            }
+                            cur.successors[t]![b] = discovered
+                        }
+                }
+            }
+        }
+
+        return initNode
     }
 
-    // MARK: Internals
 
     private static func equals(_ lhs: MarkingType, _ rhs: MarkingType) -> Bool {
         guard lhs.keys == rhs.keys else { return false }
@@ -67,12 +88,12 @@ public class PredicateMarkingNode<T: Equatable>: Sequence {
         var toVisit = [self]
 
         return AnyIterator {
-            guard let currentNode = toVisit.popLast() else {
+            guard let cur = toVisit.popLast() else {
                 return nil
             }
 
             var unvisited: [PredicateMarkingNode] = []
-            for (_, successorsByBinding) in currentNode.successors {
+            for (_, successorsByBinding) in cur.successors {
                 for (_, successor) in successorsByBinding {
                     if !visited.contains(where: { $0 === successor }) {
                         unvisited.append(successor)
@@ -83,7 +104,7 @@ public class PredicateMarkingNode<T: Equatable>: Sequence {
             visited.append(contentsOf: unvisited)
             toVisit.append(contentsOf: unvisited)
 
-            return currentNode
+            return cur
         }
     }
 
