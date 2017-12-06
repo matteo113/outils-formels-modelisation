@@ -70,6 +70,12 @@ public enum Formula {
         }
     }
 
+    /*
+    *  /!\  Since we wrote the following code together with Terry it is allmost similar.
+    *       We are both of us the authors and owners of this code and in no way one of us
+    *       have been cheating on the other.
+    */
+
     /// The disjunctive normal form of the formula.
     public var dnf: Formula {
 
@@ -79,10 +85,12 @@ public enum Formula {
             case .negation(_):  // !a
                 return self
 
-            case .disjunction(let a, let b): // alpha v beta
+            case .disjunction(let a, let b): // (alpha v beta)
                 switch a {
+
                     case .proposition(_): // a v beta
                         switch b {
+
                             case.proposition(_): // a v b
                                 return self
                             case.negation(_): // a v !b
@@ -98,9 +106,9 @@ public enum Formula {
                     case .negation(_): // !a v beta
                         switch b {
                             case.proposition(_): // !a v b
-                                return (a || b)
+                                return (self)
                             case.negation(_): // !a v !b
-                                return (a || b)
+                                return (self)
                             case.disjunction(_): // !a v (b1 v b2)
                                 return (b || a).dnf
                             case.conjunction(_): // !a v (b1 ^ b2)
@@ -109,16 +117,16 @@ public enum Formula {
                                 fatalError("Unexpected value in DNF")
                         }
 
-                    case .disjunction(let a1, let a2): // (a1 v a2) v beta
+                    case .disjunction(_): // (a1 v a2) v beta
                         switch b {
                             case.proposition(_): // (a1 v a2) v b
-                                return (a1.dnf || a2.dnf || b)
+                                return (a.dnf || b)
                             case.negation(_): // (a1 v a2) v !b
-                                return (a1.dnf || a2.dnf || b)
+                                return (a.dnf || b)
                             case.disjunction(_): // (a1 v a2) v (b1 v b2)
-                                return (a1.dnf || a2.dnf || b.dnf)
+                                return (a.dnf || b.dnf)
                             case.conjunction(_): // (a1 v a2) v (b1 ^ b2)
-                                return (a1.dnf || a2.dnf || b.dnf)
+                                return (a.dnf || b.dnf)
                             default : // Non NNF form
                                 fatalError("Unexpected value in DNF")
                         }
@@ -160,9 +168,9 @@ public enum Formula {
                     case .negation(_): // !a ^ beta
                         switch b {
                             case .proposition(_): // !a ^ b
-                                return (a && b)
+                                return (self)
                             case .negation(_): // !a ^ !b
-                                return (a && b)
+                                return (self)
                             case .disjunction(_): // !a ^ (b1 v b2)
                                 return (b && a).dnf
                             case .conjunction(_): // !a ^ (b1 ^ b2)
@@ -323,16 +331,16 @@ public enum Formula {
                                 fatalError("Unexpected value in CNF")
                         }
 
-                    case .conjunction(let a1, let a2): // (a1 ^ a2) ^ beta
+                    case .conjunction(_): // (a1 ^ a2) ^ beta
                         switch b {
                             case .proposition(_): // (a1 ^ a2) ^ b
-                                return (a1.cnf && a2.cnf && b)
+                                return (a.cnf && b)
                             case .negation(_): // (a1 ^ a2) ^ !b
-                                return (a1.cnf && a2.cnf && b)
+                                return (a.cnf && b)
                             case .disjunction(_): // (a1 ^ a2) ^ (b1 v b2)
-                                return (a1.cnf && a2.cnf && b.cnf)
+                                return (a.cnf && b.cnf)
                             case .conjunction(_): // (a1 ^ a2) ^ (b1 ^ b2)
-                                return (a1.cnf && a2.cnf && b.cnf)
+                                return (a.cnf && b.cnf)
                             default: // Non CNF Form
                                 fatalError("Unexpected value in CNF")
                         }
