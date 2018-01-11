@@ -1,5 +1,5 @@
 # Fdb version 3
-["pdflatex"] 1515679355 "tp-06-matteo.tex" "tp-06-matteo.pdf" "tp-06-matteo" 1515679355
+["pdflatex"] 1515695528 "tp-06-matteo.tex" "tp-06-matteo.pdf" "tp-06-matteo" 1515695528
   "/usr/share/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc" 1510784331 2971 def0b6c1f0b107b3b936def894055589 ""
   "/usr/share/texmf-dist/fonts/map/fontname/texfonts.map" 1510784337 3287 e6b82fe08f5336d4d5ebc73fb1152e87 ""
   "/usr/share/texmf-dist/fonts/tfm/jknappen/ec/ecbx1200.tfm" 1510784340 3584 402da0b29eafbad07963b1224b222f18 ""
@@ -81,9 +81,9 @@
   "/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map" 1512385677 2404736 6ca9e6023b4459829efec74926ef1c58 ""
   "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1510818241 7736839 2c1853b0b12a0da91a19a7d158c94a67 ""
   "ex1.png" 1515676670 20733 c17339a17dab4e4f9505077e8a8bef38 ""
-  "tp-06-matteo.aux" 1515679355 657 3a244c2455eb1bb2eb8b11bb1229d060 ""
-  "tp-06-matteo.tex" 1515679355 2055 96c7f4ad35ca2fb96856889a14ddc8a1 ""
+  "tp-06-matteo.aux" 1515695528 681 83e7c11fbdd1f60a2399904c6b983e90 ""
+  "tp-06-matteo.tex" 1515695528 2470 410ce46d7eb718087cb03d5fece716aa ""
   (generated)
-  "tp-06-matteo.aux"
   "tp-06-matteo.log"
+  "tp-06-matteo.aux"
   "tp-06-matteo.pdf"
