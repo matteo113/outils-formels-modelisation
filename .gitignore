@@ -9,3 +9,6 @@ Package.resolved
 *.log
 *.out
 *.aux
+*.fls
+*.fdb_latexmk
+*.synctex.gz
