@@ -65,10 +65,10 @@
 		L'état d'un RdP est appelé un marquage $M:P\to \mathbb{N}$ souvent le marquage initial est noté $M_0$
 
 		Pour la figure \ref{exrdp} on a la matrice de marquage:
-		$$M = \begin{bmatrix}
+		$$M = \begin{pmatrix}
 			2\\
 			3
-		\end{bmatrix}$$
+		\end{pmatrix}$$
 	\subsubsection*{2. Définition formelle des règles de franchissabilité des transitions (sémantique)}
 		Y a un jeton et paf plus de jeton !!
 
@@ -118,7 +118,49 @@
 	\end{pmatrix}
 	$$
 
-\subsubsection*{4. Propriétés des séquences de franchissements, vecteur caractéristique et équation fondamentale}
+	\subsubsection*{4. Propriétés des séquences de franchissements, vecteur caractéristique et équation fondamentale}
+
+		On a la séquece de transition $T_1T_2$ On peut écrire
+		$$s = T_1T_2$$
+		$$M_0 \xrightarrow[]{s} M_2$$
+
+		$\overline{s}$ est le vecteur caractéristique de la séquence $s$ tel que
+		$$\overline{s}: T \rightarrow \mathbb{N}$$
+		$$\overline{s}(t) = \textrm{le nombre d'occurences de t dans } s$$
+
+		En prenant l'exemple de la figure \ref{exrdp} avec la séquence $t_1t_2t_2t_3t_1$ on a le vecteur caractéristique suivant :
+		$$\overline{s} = \begin{pmatrix}
+			2\\
+			2\\
+			1
+		\end{pmatrix}$$
+
+		On a les propriétés suivantes
+		$$s = s_1 \cdot s_2$$
+		$$\overline{s} = \overline{s_1} + \overline{s_2}$$
+
+		Pour $M \xrightarrow[]{s} M'$ on a :
+		$$M' = M + C \cdot \overline{s}$$
+	 	qui est \textbf{l'équation fondamentale}.
+
+\section{Propriétés des RdP}
+	\subsubsection*{5. Monotonie et répétitivité des séquences de transitions}
+
+		Dénfinition :
+		$$M_a \leq M_b \textrm{ si } \forall p \in P M_a(p) \leq M_2(p)$$
+
+		Un réseau est dit \textbf{monotone} si
+		$$M_1 \xrightarrow[]{s} M \textrm{ et } M_1 \leq M_2$$
+
+		Alors
+		$$M_2 \xrightarrow[]{s} M + (M_2 - M_1)$$
+
+		Une séquence est dite \textbf{répétitive} si
+		$$\forall M \textrm{ t.q. } M \xrightarrow[]{s}$$
+
+		Alors
+		$$\forall n \in \mathbb{N^+}, M \xrightarrow[]{s^n}$$
+
 
 
 \end{document}
