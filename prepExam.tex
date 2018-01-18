@@ -72,7 +72,7 @@
 	\subsubsection*{2. Définition formelle des règles de franchissabilité des transitions (sémantique)}
 		Y a un jeton et paf plus de jeton !!
 
-	\subsubsection*{3. Utilisation de l’algèbre linéaire pour définir la franchissabilité des transitions}
+	\subsubsection*{3. Utilisation de l'algèbre linéaire pour définir la franchissabilité des transitions}
 
 	Une transition $t$ est franchissable (tirable) si :
 	$$\forall p \in P,\ M(p) \geq Entree(p,t)$$
@@ -149,7 +149,7 @@
 		Dénfinition :
 		$$M_a \leq M_b \textrm{ si } \forall p \in P M_a(p) \leq M_2(p)$$
 
-		Un réseau est dit \textbf{monotone} si
+		Une séquence est dite \textbf{monotone} si
 		$$M_1 \xrightarrow[]{s} M \textrm{ et } M_1 \leq M_2$$
 
 		Alors
@@ -161,6 +161,74 @@
 		Alors
 		$$\forall n \in \mathbb{N^+}, M \xrightarrow[]{s^n}$$
 
+	\subsubsection*{6. "Bornitude" et répétitivité des séquences de transitions}
+
+		Un marquage $M'$ est \textit{accessible} si
+		$$\exists s \in T^* \textrm{ t.q. } M \xrightarrow[]{s} M'$$
+
+		L'ensemble des marquages accessibles dans un Reseau $R$ depuis $M$ est noté $A(R,M)$
+
+		Une place $p$ du réseau $(R, M_0)$ est \textbf{k-bornée} si
+		$$\forall M \in A(R, M_0),\ M(p) \leq k$$
+
+		Une séquence répétitive est croissante pour $p$ si :
+		$$\forall M, M' \in A(R, M_0) \textrm{ t.q. } M \xrightarrow[]{s} M'$$
+
+		Alors
+		$$M(p) < M'(p)$$
+
+		Un réseau $(R, M_0)$ est \textbf{non borné} si et seulement si
+		\begin{itemize}
+			\item $\exists s$ répétitive croissante pour $p$
+			\item $\exists M \in A(R, M_0)$
+		\end{itemize}
+		Tel que $M \xrightarrow[]{s}$
+	\subsubsection*{7. Monotonicité, quasi-vivacité, vivacité et blocage}
+
+		Une transition $t$ est dite \textbf{quasi-vivante} pour $M_0$ si et seulement si
+		$$\exists M \in A(R,M_0),\ M \xrightarrow[]{t}$$
+
+		Un réseau est quasi-vivant si
+		$$\forall t \in T,\ t \textrm{ est quasi-vivant}$$
+
+		Une transition $t$ est dite \textbf{vivante} si et seulement si
+		$$\forall M \in A(R,M_0), t \textrm{ est quasi-vivant pour } M$$
+
+		Un réseau est vivant si
+		$$\forall t \in T,\ t \textrm{ est vivant}$$
+
+		\textbf{Attention} la vivacité n'est pas monotone contrairement à la quasi-vivacité
+
+		Une séquence répétitive $s$ est dite complète si
+		$$\forall t \in T,\ \overline{s}(t) \geq 1$$
+
+		On a donc la relation suivante :
+		$$(R, M_0) \textrm{ vivant } \iff
+		\forall M \in A(R,M_0),\
+		\exists M' \in A(R,M),\
+		\exists s \in T^* \textrm{ complète t.q. }
+		M' \xrightarrow[]{s}$$
+
+		Un marquage puit est un marquage pour le quel aucune transition n'est tirable
+		$$Puit(M) \iff \nexists t \in T \textrm{ t.q. } M \xrightarrow[]{t}$$
+
+		Un reseau $(R,M_0)$ est sans blocage si
+		$$\forall M \in A(R,M_0),\ \neg Puit(M)$$
+
+	\subsubsection*{8. État d'accueuil, réversibilité, répétitivité, consistance}
+
+		Un réseau a un \textbf{marquage d'accueuil} $M_a$ pour un marquage initial $M_0$ si
+		$$\forall M_i \in A(R,M_0),\ \exists s \in T^* \textrm{ t.q. } M_i \xrightarrow[]{s} M_a$$
+
+		Un rdP est \textbf{réinitialisable (ou réversible)} pour un marquage initial $M_0$ si $M_0$ est un état d'accueil.
+
+		Un rdP est \textbf{répétitif} s'il existe un marquage initial $M_0$ et une séquence $s$ franchissable telle que chaque transition apparait un nombre illimité de fois.
+
+		Un réseau est \textbf{consistant} si il exite un marquage initial $M_0$ et $s$ contenant au moins une fois toute les transitions tels que
+		$$M_0 \xrightarrow[]{s} M_0$$
+
+\section{Vérification des propriétés}
+	\subsubsection*{9. Définition du graphe de marquages, définition du graphe de couverture}
 
 
 \end{document}
