@@ -229,6 +229,36 @@
 
 \section{Vérification des propriétés}
 	\subsubsection*{9. Définition du graphe de marquages, définition du graphe de couverture}
+		\paragraph{Définitions}
+
+		Le symbole $\omega$ est utilisé pour représenter un nombre arbitrairement dans une place.
+		$$\omega \notin \mathbb{N}$$
+
+		On a les propriétés suivantes avec $n \in \mathbb{N}$
+		$$\omega + n = \omega$$
+		$$\omega - n = \omega$$
+		$$n < \omega$$
+		$$\omega \leq \omega$$
+
+		$\mathbb{N_\omega}$ est l'ensemble $\mathbb{N} \cup {\omega}$
+
+		Pour $Q \in \mathbb{N_{\omega}^{|P|}}$
+
+		On a l'arborescence de couverture qui est notée $AC(N)$ où $N = (R, M_0)$
+		$$AC(N) = (S, X, \mu, \lambda, r)$$
+
+		avec les sommets de $S$ qui sont étiquetés par des vecteurs de $\mathbb{N}_{\omega}^{m}$ où $m = |P|$ (la cardinalité de $P$)
+
+		$$\mu : S \rightarrow \mathbb{N}_\omega^m$$
+		$$r \textrm{ la racine,  } \mu(r)=M_0$$
+
+		Les arcs de $X \subseteq S \times S$ sont étiquetés par des tarnsitions de $T$
+		$$\lambda : X \rightarrow T$$
+
+		\paragraph{Graph de couverture}
+
+		Le graph de couverture $GC(N)$ est obtenus à partire de $AC(N)$ est obtenus en fusionant les
+		somets étiquetés avec le même vecteur.
 
 
 \end{document}
